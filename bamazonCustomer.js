@@ -7,13 +7,19 @@ var connection = mysql.createConnection({
     password: 'MySQL5125496',
     database: 'Bamazon'
 });
+
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
-    showItems().then(function () {
-        return startPrompt();
-    });
 });
+
+reset();
+
+function reset() {
+    showItems().then(function () {
+        return purchasePrompt();
+    });
+}
 
 function showItems() {
     return new Promise(function (success, failure) {
@@ -27,14 +33,27 @@ function showItems() {
     });
 }
 
-function startPrompt() {
-    return (inquirer.prompt([{
-        name: 'id-of-item',
+function purchasePrompt() {
+    return inquirer.prompt([{
+        name: 'idOfItem',
         type: 'input',
         message: 'Enter ID of item to buy',
     }, {
-        name: 'quantity-of-item',
+        name: 'quantityOfItem',
         type: 'input',
         message: 'Enter quantity to buy'
-    }]));
+    }]).then(function (answer) {
+        return new Promise(function (success, failure) {
+            connection.query("SELECT * FROM products", function (err, res) {
+                if (err) throw (err);
+                success(res);
+                if (answer.quantityOfItem <= res[answer.idOfItem].stock_quantity) {
+                    console.log('Good!');
+                } else {
+                    console.log('Insufficient Quantity!');
+                    reset();
+                }
+            });
+        });
+    });
 }

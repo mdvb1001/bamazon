@@ -1,10 +1,11 @@
 var inquirer = require('inquirer');
 var mysql = require('mysql');
+var key = require('./key.js');
 var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'MySQL5125496',
+    password: key.mysqlKey.password,
     database: 'Bamazon'
 });
 connection.connect(function (err) {

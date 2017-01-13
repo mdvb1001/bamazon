@@ -10,12 +10,25 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
+    reset().catch(function (err) {
+        console.log(err);
+    });
 });
-reset();
 
 function reset() {
-    showItems().then(function () {
-        return purchasePrompt();
+    return inquirer.prompt([{
+        type: 'list',
+        message: 'What would you like to do?',
+        choices: ['Shop', 'Exit App'],
+        name: 'menu'
+    }]).then(function (answer) {
+        if (answer.menu === 'Shop') {
+            showItems().then(function () {
+                return purchasePrompt();
+            });
+        } else if (answer.menu === 'Exit App') {
+            return exitApp();
+        }
     });
 }
 
@@ -63,24 +76,24 @@ function purchasePrompt() {
                 success(res);
             });
         }).then(function (result) {
-            console.log(result);
-            console.log(result[0].stock_quantity);
-            console.log(result[0].item_id);
-            console.log(answer.quantityOfItem);
             if (answer.quantityOfItem <= result[0].stock_quantity) {
                 var newQuantity = result[0].stock_quantity - answer.quantityOfItem;
-                console.log(newQuantity);
                 connection.query("UPDATE products SET ? WHERE ?", [{
                     stock_quantity: newQuantity
                 }, {
                     item_id: result[0].item_id
                 }], function (err, res) {
                     console.log('Your purchase has been complete!');
-                }).then(reset());
+                    reset();
+                });
             } else {
                 console.log('Insufficient Quantity!');
                 reset();
             }
         });
     });
+}
+
+function exitApp () {
+    connection.destroy();
 }

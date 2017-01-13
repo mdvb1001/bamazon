@@ -5,7 +5,7 @@ USE Bamazon;
 CREATE TABLE products (
 item_id INTEGER(11) AUTO_INCREMENT NOT NULL,
 product_name VARCHAR(30) NOT NULL,
-departmenent_name VARCHAR(30) NOT NULL, 
+department_name VARCHAR(30) NOT NULL, 
 price DECIMAL(10,2) NOT NULL,
 stock_quantity INTEGER(7) NOT NULL,
 PRIMARY KEY (item_id)
@@ -13,7 +13,7 @@ PRIMARY KEY (item_id)
 
 SELECT * FROM products;
 
-INSERT INTO products (product_name, departmenent_name, price, stock_quantity)
+INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ('Computer', 'Electronics', 799.99, 150),
 	   ('Mouse', 'Electronics', 12.99, 50),
 	   ('Keyboard', 'Electronics', 45.00, 25),

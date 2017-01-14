@@ -53,7 +53,7 @@ function reset() {
     });
 }
 
-// function to add new products
+// function to add a new products
 function addNewProduct() {
     return inquirer.prompt([{
         name: 'productName',
@@ -203,6 +203,7 @@ function lowInventory() {
         connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw (err);
             success(res);
+            // displays every detail for each item that has inventory lower than 5
             for (var i = 0; i < res.length; i++) {
                 if (res[i].stock_quantity <= 5) {
                     console.log('ID#: ' + res[i].item_id + " | " + res[i].product_name + " | " + 'Dept: ' + res[i].department_name + " | " + '$' + res[i].price + " | " + "Qty: " + res[i].stock_quantity);

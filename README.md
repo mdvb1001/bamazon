@@ -24,24 +24,24 @@ Done? Great! You are ready to experience Bamazon!
 
 * Type `node bamazonCustomer.js` to get things rolling with part 1. 
 
- Here you will be able to buy the products listed in the product list by entering an ID number.
- You can exit this app at anytime by selecting `Exit App`. If you want to shop more, then go for `Shop`.
+Here you will be able to buy the products listed in the product list by entering an ID number.
+You can exit this app at anytime by selecting `Exit App`. If you want to shop more, then go for `Shop`.
 
 * Type `node bamazonManager.js` to get to the meat of part 2.
 
- Here, you will be presented with a menu of awesome commands: 
+Here, you will be presented with a menu of awesome commands: 
 
 	* `View Product for Sale`
 	* `View Low Inventory`
 	* `Add to Inventory`
 	* `Add New Product`
 	* `Exit App` 
- 
- These options are pretty self explanatory.
 
- `View Low Inventory` will display all products with inventories of 5 or less.
+These options are pretty self explanatory.
 
- `Add New Product` will allow you to add a whole new item to the product line. It will ask you to specify the name, department, price and inventory for each new product. 
+`View Low Inventory` will display all products with inventories of 5 or less.
+
+`Add New Product` will allow you to add a whole new item to the product line. It will ask you to specify the name, department, price and inventory for each new product. 
 
 
 

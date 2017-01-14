@@ -27,7 +27,7 @@ Done? Great! You are ready to experience Bamazon!
  Here you will be able to buy the products listed in the product list by entering an ID number.
  You can exit this app at anytime by selecting `Exit App`. If you want to shop more, then go for `Shop`.
 
-* Type 'node bamazonManager.js' to get to the meat of part 2.
+* Type `node bamazonManager.js` to get to the meat of part 2.
 
  Here, you will be presented with a menu of awesome commands: 
 

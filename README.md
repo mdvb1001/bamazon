@@ -1,4 +1,4 @@
-# BAMAZON
+# Bamazon
 
 HW10 - Northwestern Coding Boot Camp 
 
@@ -16,7 +16,7 @@ The next step would be to add some data to your server by using MySQL or any oth
 
 Use the commands in `bamazon_db.sql` to create the appropriate database ("Bamazon"), table ("products") and columns ("id_item", "product_name", "department_name", "price", "stock_quantity"). 
 
-After this, you will need to establish a connection between the machine and the server. Go to `var connection` in `bamazonCustomer` and change `password` and `port` to mirror your local machine's settings. You will need to repeat this in your `bamazonManager` file. 
+After this, you will need to establish a connection between the machine and the server. Go to `var connection` in `bamazonCustomer.js` and change `password` and `port` to mirror your local machine's settings. You will need to repeat this in your `bamazonManager.js` file. 
 
 Done? Great! You are ready to experience Bamazon!
 
@@ -42,6 +42,7 @@ Done? Great! You are ready to experience Bamazon!
  `View Low Inventory` will display all products with inventories of 5 or less.
 
  `Add New Product` will allow you to add a whole new item to the product line. It will ask you to specify the name, department, price and inventory for each new product. 
+
 
 
 It's important to note that the menu in both parts will be displayed as soon as you finish running command. This will allow you to experience the full scope of this app without having to the file name repeatedly. 

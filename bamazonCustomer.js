@@ -1,6 +1,7 @@
 var inquirer = require('inquirer');
 var mysql = require('mysql');
 var key = require('./key.js');
+var idArray = [];
 var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
@@ -10,7 +11,6 @@ var connection = mysql.createConnection({
 });
 connection.connect(function (err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
     reset().catch(function (err) {
         console.log(err);
     });
@@ -40,6 +40,7 @@ function showItems() {
             success(res);
             for (var i = 0; i < res.length; i++) {
                 console.log('ID#: ' + res[i].item_id + " | " + res[i].product_name + " | " + '$' + res[i].price);
+                idArray.push(res[i].item_id);
             }
         });
     });
@@ -51,10 +52,10 @@ function purchasePrompt() {
         type: 'input',
         message: 'Enter ID of item to buy',
         validate: function (input) {
-            if (isNaN(input) !== true) {
+            if ((isNaN(input) !== true) && (input <= idArray.length) && (input !== '')) {
                 return true;
             } else {
-                console.log("\nplease enter a number");
+                console.log("\nError: please enter a valid ID#");
                 return false;
             }
         }
@@ -79,12 +80,13 @@ function purchasePrompt() {
         }).then(function (result) {
             if (answer.quantityOfItem <= result[0].stock_quantity) {
                 var newQuantity = result[0].stock_quantity - answer.quantityOfItem;
+                var totalPrice = parseFloat(result[0].price * answer.quantityOfItem).toFixed(2);
                 connection.query("UPDATE products SET ? WHERE ?", [{
                     stock_quantity: newQuantity
                 }, {
                     item_id: result[0].item_id
                 }], function (err, res) {
-                    console.log('Your purchase has been complete!');
+                    console.log('Your purchase for $' + totalPrice + ' is complete!');
                     reset();
                 });
             } else {
@@ -95,6 +97,7 @@ function purchasePrompt() {
     });
 }
 
-function exitApp () {
+function exitApp() {
     connection.destroy();
+    console.log('\nFine! We hope you never come back!');
 }

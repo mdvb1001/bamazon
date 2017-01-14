@@ -1,6 +1,7 @@
 var inquirer = require('inquirer');
 var mysql = require('mysql');
 var key = require('./key.js');
+var idArray = [];
 var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
@@ -101,7 +102,7 @@ function addNewProduct() {
                 price: newPrice,
                 stock_quantity: newStock
             }], function (err, res) {
-                console.log('New Item Added!');
+                console.log('Added to products: ' + '"' + answer.productName + '"');
                 return reset();
             });
         });
@@ -114,10 +115,10 @@ function addInventory() {
         type: 'input',
         message: 'Enter ID of item to add inventory to it',
         validate: function (input) {
-            if (isNaN(input) !== true) {
+            if ((isNaN(input) !== true) && (input <= idArray.length) && (input !== '')) {
                 return true;
             } else {
-                console.log("\nplease enter a number");
+                console.log("\nError: please enter a valid ID#");
                 return false;
             }
         }
@@ -146,7 +147,7 @@ function addInventory() {
             }, {
                 item_id: result[0].item_id
             }], function (err, res) {
-                console.log('Inventory replenished!');
+                console.log('Inventory for ' + '"' + result[0].product_name + '"' + ' has been increased to ' + newQuantity);
                 reset();
             });
         }).catch(function (err) {
@@ -162,6 +163,7 @@ function viewProducts() {
             success(res);
             for (var i = 0; i < res.length; i++) {
                 console.log('ID#: ' + res[i].item_id + " | " + res[i].product_name + " | " + 'Dept: ' + res[i].department_name + " | " + '$' + res[i].price + " | " + "Qty: " + res[i].stock_quantity);
+                idArray.push(res[i].item_id);
             }
         });
     });
@@ -182,6 +184,7 @@ function lowInventory() {
     });
 }
 
-function exitApp () {
+function exitApp() {
     connection.destroy();
+    console.log('\nFine! We hope you never come back!');
 }
